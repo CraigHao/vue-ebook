@@ -12,6 +12,7 @@ const routes = [
     path: '/ebook',
     component: () => import('../views/ebook/index.vue'),
     children: [
+      // 动态路由，fileName是传入的内容，传入后跳转到EbookReader.vue
       {
         path: ':fileName',
         component: () => import('../components/ebook/EbookReader')

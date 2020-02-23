@@ -44,7 +44,7 @@ export function themeList (vue) {
       style: {
         body: {
           color: '#404c42',
-          background: '#deeedf'
+          background: '#e4f4e5'
         }
       }
     },

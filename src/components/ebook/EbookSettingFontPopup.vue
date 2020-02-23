@@ -39,7 +39,7 @@ export default {
       this.setDefaultFontFamily(font)
       saveFontFamily(this.fileName, font)
       if (font === 'Default') {
-        this.currentBook.rendition.themes.font('Arial')
+        this.currentBook.rendition.themes.font('微软雅黑')
       } else {
         this.currentBook.rendition.themes.font(font)
       }

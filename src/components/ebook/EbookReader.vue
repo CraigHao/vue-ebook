@@ -1,5 +1,6 @@
 <template>
   <div class="ebook-reader">
+
     <div id="read"></div>
   </div>
 </template>
@@ -7,25 +8,32 @@
 <script>
 import { ebookMinx } from '../../utils/mixin'
 import Epub from 'epubjs'
-import { getFontFamily, getFontSize, getTheme, saveFontFamily, saveFontSize, saveTheme } from '../../utils/localStorage'
+import { getLocation, getFontFamily, getFontSize, getTheme, saveFontFamily, saveFontSize, saveTheme } from '../../utils/localStorage'
 
 global.ePub = Epub
 
 export default {
   mixins: [ebookMinx],
   methods: {
+
     prevPage () {
       if (this.rendition) {
-        this.rendition.prev()
+        this.rendition.prev().then(() => {
+          this.refreshLocation()
+        })
         this.hideTitleAndMenu()
       }
     },
+
     nextPage () {
       if (this.rendition) {
-        this.rendition.next()
+        this.rendition.next().then(() => {
+          this.refreshLocation()
+        })
         this.hideTitleAndMenu()
       }
     },
+
     toggleTitleAndMenu () {
       if (this.menuVisible) {
         this.setSettingVisible(-1)
@@ -33,11 +41,13 @@ export default {
       }
       this.setMenuVisible(!this.menuVisible)
     },
+
     hideTitleAndMenu () {
       this.setMenuVisible(false)
       this.setSettingVisible(-1)
       this.setFontFamilyVisible(false)
     },
+
     initFontSize () {
       const fontSize = getFontSize(this.fileName)
       if (!fontSize) {
@@ -47,6 +57,7 @@ export default {
         this.setDefaultFontSize(fontSize)
       }
     },
+
     initFontFamily () {
       const font = getFontFamily(this.fileName)
       if (!font) {
@@ -56,6 +67,7 @@ export default {
         this.setDefaultFontFamily(font)
       }
     },
+
     initTheme () {
       let defaultTheme = getTheme(this.fileName)
       if (!defaultTheme) {
@@ -68,25 +80,38 @@ export default {
       })
       this.rendition.themes.select(defaultTheme)
     },
-    initEpub () {
-      const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub'
-      this.book = new Epub(url)
-      this.setCurrentBook(this.book)
+
+    initRendition () {
       this.rendition = this.book.renderTo('read', {
         width: innerWidth,
         height: innerHeight,
         method: 'default'
       })
-      this.rendition.display().then(() => {
+      const location = getLocation(this.fileName)
+      this.display(location, () => {
         this.initTheme()
-        this.initFontSize()
         this.initFontFamily()
+        this.initFontSize()
         this.initGlobalStyle()
       })
+      this.rendition.hooks.content.register(contents => {
+        Promise.all([
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
+        ]).then(() => {
+
+        })
+      })
+    },
+
+    initGesture () {
       this.rendition.on('touchstart', event => {
         this.touchStartX = event.changedTouches[0].clientX
         this.touchStartTime = event.timeStamp
       })
+
       this.rendition.on('touchend', event => {
         const offsetX = event.changedTouches[0].clientX - this.touchStartX
         const time = event.timeStamp - this.touchStartTime
@@ -99,19 +124,26 @@ export default {
         }
         event.stopPropagation()
       })
-      this.rendition.hooks.content.register(contents => {
-        Promise.all([
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
-          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
-        ]).then(() => {
+    },
 
-        })
+    initEpub () {
+      const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub'
+      this.book = new Epub(url)
+      this.setCurrentBook(this.book)
+      this.initRendition()
+      this.initGesture()
+      // 分页算法
+      this.book.ready.then(() => {
+        return this.book.locations.generate(750 * (window.innerWidth / 375) *
+          (getFontSize(this.fileName) / 16))
+      }).then(locations => {
+        this.setBookAvailable(true)
+        this.refreshLocation()
       })
     }
   },
   mounted () {
+    // 通过url解析电子书，在|前后进行划分，再用/拼在一起
     const fileName = this.$route.params.fileName.split('|').join('/')
     this.setFileName(fileName).then(() => {
       this.initEpub()
