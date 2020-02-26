@@ -161,7 +161,6 @@ export default {
         left: 0;
         bottom: px2rem(10);
         width: 100%;
-        color: #333;
         font-size: px2rem(14);
         padding: 0 px2rem(15);
         box-sizing: border-box;
