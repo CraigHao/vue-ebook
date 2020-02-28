@@ -29,6 +29,7 @@
 import { ebookMinx } from '../../utils/mixin'
 import EbookSlideContents from './EbookSlideContents'
 import EbookLoading from './EbookLoading'
+import EbookSlideBookmark from './EbookSlideBookmark'
 
 export default {
   components: { EbookLoading },
@@ -37,7 +38,7 @@ export default {
     return {
       currentTab: 1,
       content: EbookSlideContents,
-      bookmark: null
+      bookmark: EbookSlideBookmark
     }
   },
   methods: {
