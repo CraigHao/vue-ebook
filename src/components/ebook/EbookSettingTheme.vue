@@ -44,19 +44,23 @@ export default {
     height: px2rem(90);
     background: white;
     box-shadow: 0 px2rem(-8) px2rem(8) rgba(0, 0, 0, .15);
+
     .setting-theme {
       height: 100%;
       display: flex;
+
       .setting-theme-item {
         flex: 1;
         display: flex;
         flex-direction: column;
         padding: px2rem(5);
         box-sizing: border-box;
+
         .preview {
           flex: 1;
           border: px2rem(1) solid #ccc;
           box-sizing: border-box;
+
           &.selected {
             box-shadow: 0 px2rem(6) px2rem(10) 0 rgba(0, 0, 0, .1);
           }

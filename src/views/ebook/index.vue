@@ -4,6 +4,8 @@
     <ebook-title></ebook-title>
     <ebook-menu></ebook-menu>
     <ebook-bookmark></ebook-bookmark>
+    <ebook-header></ebook-header>
+    <ebook-footer></ebook-footer>
   </div>
 </template>
 
@@ -14,11 +16,13 @@ import EbookMenu from '../../components/ebook/EbookMenu'
 import { getReadTime, saveReadTime } from '../../utils/localStorage'
 import { ebookMinx } from '../../utils/mixin'
 import EbookBookmark from '../../components/ebook/EbookBookmark'
+import EbookHeader from '../../components/ebook/EbookHeader'
+import EbookFooter from '../../components/ebook/EbookFooter'
 
 export default {
   mixins: [ebookMinx],
   name: 'index',
-  components: { EbookBookmark, EbookMenu, EbookTitle, EbookReader },
+  components: { EbookFooter, EbookHeader, EbookBookmark, EbookMenu, EbookTitle, EbookReader },
   methods: {
     startLoopReadTime () {
       let readTime = getReadTime(this.fileName)
