@@ -26,14 +26,14 @@
 </template>
 
 <script>
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 import EbookSlideContents from './EbookSlideContents'
 import EbookLoading from './EbookLoading'
 import EbookSlideBookmark from './EbookSlideBookmark'
 
 export default {
   components: { EbookLoading },
-  mixins: [ebookMinx],
+  mixins: [ebookMixin],
   data () {
     return {
       currentTab: 1,

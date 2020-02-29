@@ -1,3 +1,5 @@
+$animationTime: .2s;
+$animationType: linear;
 $ratio: 375 / 10;
 
 @function px2rem($px){
@@ -27,6 +29,7 @@ $ratio: 375 / 10;
   overflow: hidden;
   white-space: nowrap;
 }
+
 @mixin ellipsis2($line) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -35,4 +38,15 @@ $ratio: 375 / 10;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
+}
+
+.icon {
+  color: #666;
+  font-size: px2rem(16);
+}
+
+.title {
+  color: #666;
+  font-size: px2rem(16);
+  font-weight: bold;
 }

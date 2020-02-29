@@ -15,10 +15,10 @@
 <script type="text/ecmascript-6">
 import Scroll from '../common/Scroll'
 import { getBookmark } from '../../utils/localStorage'
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 
 export default {
-  mixins: [ebookMinx],
+  mixins: [ebookMixin],
   components: {
     Scroll
   },

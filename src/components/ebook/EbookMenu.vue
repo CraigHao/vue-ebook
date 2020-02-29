@@ -27,7 +27,7 @@
 
 <script>
 
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 import EbookSettingFont from './ebookSettingFont'
 import EbookSettingFontPopup from './EbookSettingFontPopup'
 import EbookSettingTheme from './EbookSettingTheme'
@@ -35,7 +35,7 @@ import EbookSettingProgress from './EbookSettingProgress'
 import EbookSlide from './EbookSlide'
 export default {
   components: { EbookSlide, EbookSettingProgress, EbookSettingTheme, EbookSettingFontPopup, EbookSettingFont },
-  mixins: [ebookMinx],
+  mixins: [ebookMixin],
 
   methods: {
     showSetting (key) {

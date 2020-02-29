@@ -5,10 +5,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 
 export default {
-  mixins: [ebookMinx]
+  mixins: [ebookMixin]
 }
 </script>
 

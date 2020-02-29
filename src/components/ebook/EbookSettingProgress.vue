@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 
 export default {
-  mixins: [ebookMinx],
+  mixins: [ebookMixin],
   methods: {
     onProgressChange (progress) {
       this.setProgress(progress).then(() => {

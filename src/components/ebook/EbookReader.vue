@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
 import { getLocation, getFontFamily, getFontSize, getTheme, saveFontFamily, saveFontSize, saveTheme } from '../../utils/localStorage'
 import { flatten } from '../../utils/book'
@@ -17,7 +17,7 @@ import { flatten } from '../../utils/book'
 global.ePub = Epub
 
 export default {
-  mixins: [ebookMinx],
+  mixins: [ebookMixin],
   methods: {
     // 1：鼠标进入，2,：鼠标进入后的移动，3：鼠标从移动状态松手，4：鼠标还原
     onMouseEnter (e) {

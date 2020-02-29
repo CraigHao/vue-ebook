@@ -15,13 +15,13 @@
 <script>
 import Bookmark from '../common/Bookmark'
 import { realPx } from '../../utils/utils'
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 import { getBookmark, saveBookmark } from '../../utils/localStorage'
 
 const BLUE = 'royalblue'
 const WHITE = '#fff'
 export default {
-  mixins: [ebookMinx],
+  mixins: [ebookMixin],
   components: { Bookmark },
   computed: {
     height () {

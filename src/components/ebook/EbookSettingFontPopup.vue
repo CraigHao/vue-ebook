@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import { ebookMinx } from '../../utils/mixin'
+import { ebookMixin } from '../../utils/mixin'
 import { FONT_FAMILY } from '../../utils/book'
 import { saveFontFamily } from '../../utils/localStorage'
 
 export default {
-  mixins: [ebookMinx],
+  mixins: [ebookMixin],
   data () {
     return {
       fontFamilyList: FONT_FAMILY

@@ -2,7 +2,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { addCss, removeAllCss, themeList, getReadTimeByMinute } from './book'
 import { getBookmark, saveLocation } from './localStorage'
 
-export const ebookMinx = {
+export const ebookMixin = {
   computed: {
     ...mapGetters([
       'fileName',
@@ -122,5 +122,14 @@ export const ebookMinx = {
     getReadTimeText () {
       return this.$t('book.haveRead').replace('$1', getReadTimeByMinute(this.fileName))
     }
+  }
+}
+
+export const storeHomeMixin = {
+  computed: {
+    ...mapGetters(['offsetY'])
+  },
+  methods: {
+    ...mapActions(['setOffsetY'])
   }
 }
