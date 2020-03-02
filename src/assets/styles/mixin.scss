@@ -11,6 +11,14 @@ $ratio: 375 / 10;
   justify-content: center;
   align-items: center;
 }
+@mixin absCenter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
 
 @mixin left {
   display: flex;
@@ -38,6 +46,13 @@ $ratio: 375 / 10;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
+}
+
+@mixin columnLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .icon {

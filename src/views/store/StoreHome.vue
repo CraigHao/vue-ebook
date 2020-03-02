@@ -1,6 +1,7 @@
 <template>
   <div class="store-home">
     <search-bar></search-bar>
+    <flap-card></flap-card>
     <scroll :top="scrollTop" @onScroll="onScroll" ref="scroll">
       <div>ddddddddddddd</div>
       <div>ddddddddddddd</div>
@@ -33,6 +34,7 @@
 
 <script>
 import SearchBar from '../../components/home/SearchBar'
+import FlapCard from '../../components/home/FlapCard'
 import Scroll from '../../components/common/Scroll'
 import { storeHomeMixin } from '../../utils/mixin'
 
@@ -40,7 +42,8 @@ export default {
   mixins: [storeHomeMixin],
   components: {
     Scroll,
-    SearchBar
+    SearchBar,
+    FlapCard
   },
   data () {
     return {
