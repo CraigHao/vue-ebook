@@ -55,6 +55,26 @@ $ratio: 375 / 10;
   align-items: flex-start;
 }
 
+@mixin columnTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin columnCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin top {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .icon {
   color: #666;
   font-size: px2rem(16);
