@@ -5,6 +5,7 @@ import store from './store'
 import './assets/styles/icon.css'
 import './assets/styles/global.scss'
 import i18n from './lang'
+import './utils/boost'
 // import './mock'
 
 Vue.config.productionTip = false
