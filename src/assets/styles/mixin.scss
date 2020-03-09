@@ -2,7 +2,7 @@ $animationTime: .2s;
 $animationType: linear;
 $ratio: 375 / 10;
 
-@function px2rem($px){
+@function px2rem($px) {
   @return $px / $ratio + rem;
 }
 
@@ -11,6 +11,7 @@ $ratio: 375 / 10;
   justify-content: center;
   align-items: center;
 }
+
 @mixin absCenter {
   position: absolute;
   top: 0;
@@ -73,6 +74,21 @@ $ratio: 375 / 10;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+}
+
+@mixin scroll {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@mixin leftBottom {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
 .icon {
