@@ -11,7 +11,15 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
-import { getLocation, getFontFamily, getFontSize, getTheme, saveFontFamily, saveFontSize, saveTheme } from '../../utils/localStorage'
+import {
+  getLocation,
+  getFontFamily,
+  getFontSize,
+  getTheme,
+  saveFontFamily,
+  saveFontSize,
+  saveTheme
+} from '../../utils/localStorage'
 import { flatten } from '../../utils/book'
 import { getLocalForage } from '../../utils/localForage'
 
@@ -20,13 +28,25 @@ global.ePub = Epub
 export default {
   mixins: [ebookMixin],
   methods: {
-    // 1：鼠标进入，2,：鼠标进入后的移动，3：鼠标从移动状态松手，4：鼠标还原
+    // 1：鼠标进入，2：鼠标进入后的移动，3：鼠标从移动状态松手，4：鼠标还原
+
+    /**
+     * 事件1
+     * 点击鼠标，进入鼠标事件
+     * @param e
+     */
     onMouseEnter (e) {
       this.mouseState = 1
       this.mouseStartTime = e.timeStamp
       e.preventDefault()
       e.stopPropagation()
     },
+
+    /**
+     * 事件2
+     * 鼠标移动，计算偏移量offsetY
+     * @param e
+     */
     onMouseMove (e) {
       if (this.mouseState === 1) {
         this.mouseState = 2
@@ -42,6 +62,11 @@ export default {
       e.preventDefault()
       e.stopPropagation()
     },
+
+    /**
+     * 鼠标从移动状态松手，鼠标还原
+     * @param e
+     */
     onMouseEnd (e) {
       if (this.mouseState === 2) {
         this.setOffsetY(0)
@@ -58,6 +83,10 @@ export default {
       e.stopPropagation()
     },
 
+    /**
+     * 点击蒙版，左30%上一页，右30%下一页，中间打开TitleAndMenu
+     * @param e
+     */
     onMaskClick (e) {
       if (this.mouseState && (this.mouseState === 2 || this.mouseState === 3)) {
         return
@@ -73,6 +102,10 @@ export default {
       }
     },
 
+    /**
+     * 移动鼠标
+     * @param e
+     */
     move (e) {
       let offsetY = 0
       if (this.firstOffsetY) {
@@ -85,11 +118,18 @@ export default {
       e.stopPropagation()
     },
 
+    /**
+     * 结束移动
+     * @param e
+     */
     moveEnd (e) {
       this.setOffsetY(0)
       this.firstOffsetY = null
     },
 
+    /**
+     * 上一页，调用mixin.js中的refreshLocation
+     */
     prevPage () {
       if (this.rendition) {
         this.rendition.prev().then(() => {
@@ -99,6 +139,9 @@ export default {
       }
     },
 
+    /**
+     * 下一页，调用refreshLocation
+     */
     nextPage () {
       if (this.rendition) {
         this.rendition.next().then(() => {
@@ -108,14 +151,22 @@ export default {
       }
     },
 
+    /**
+     * 显示标题和菜单
+     */
     toggleTitleAndMenu () {
       if (this.menuVisible) {
         this.setSettingVisible(-1)
         this.setFontFamilyVisible(false)
       }
+      // 如果再次触发，取反
       this.setMenuVisible(!this.menuVisible)
     },
 
+    /**
+     * 加载字体大小
+     * 从localStorage中通过文件名获取到fontSize
+     */
     initFontSize () {
       const fontSize = getFontSize(this.fileName)
       if (!fontSize) {
@@ -126,6 +177,10 @@ export default {
       }
     },
 
+    /**
+     * 加载字体
+     * 从localStorage中通过文件名获取到
+     */
     initFontFamily () {
       const font = getFontFamily(this.fileName)
       if (!font) {
@@ -136,6 +191,10 @@ export default {
       }
     },
 
+    /**
+     * 初始化主题
+     * 从localStorage中通过文件名获取
+     */
     initTheme () {
       let defaultTheme = getTheme(this.fileName)
       if (!defaultTheme) {
@@ -204,6 +263,7 @@ export default {
       })
       this.book.loaded.navigation.then(nav => {
         const navItem = flatten(nav.toc)
+
         function find (item, level = 0) {
           if (!item.parent) {
             return level
@@ -211,6 +271,7 @@ export default {
             return find(navItem.filter(parentItem => parentItem.id === item.parent)[0], ++level)
           }
         }
+
         navItem.forEach(item => {
           item.level = find(item)
         })

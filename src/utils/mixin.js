@@ -1,7 +1,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import { addCss, removeAllCss, themeList, getReadTimeByMinute } from './book'
 import { getBookmark, getBookShelf, saveBookShelf, saveLocation } from './localStorage'
-import { appendAddToShelf, gotoBookDetail } from './store'
+import { appendAddToShelf, computeId, gotoBookDetail, removeAddFromShelf } from './store'
 import { shelf } from '../api/store'
 
 export const ebookMixin = {
@@ -83,6 +83,10 @@ export const ebookMixin = {
           break
       }
     },
+
+    /**
+     *
+     */
     refreshLocation () {
       const currentLocation = this.currentBook.rendition.currentLocation()
       if (currentLocation && currentLocation.start) {
@@ -190,6 +194,23 @@ export const storeShelfMixin = {
       this.getShelfList().then(() => {
         const categoryList = this.shelfList.filter(book => book.type === 2 && book.title === title)[0]
         this.setShelfCategory(categoryList)
+      })
+    },
+    moveOutOfGroup (f) {
+      this.setShelfList(this.shelfList.map(book => {
+        if (book.type === 2 && book.itemList) {
+          book.itemList = book.itemList.filter(subBook => !subBook.selected)
+        }
+        return book
+      })).then(() => {
+        let list = removeAddFromShelf(this.shelfList)
+        list = [].concat(list, ...this.shelfSelected)
+        list = appendAddToShelf(list)
+        list = computeId(list)
+        this.setShelfList(list).then(() => {
+          this.simpleToast(this.$t('shelf.moveBookOutSuccess'))
+          if (f) f()
+        })
       })
     }
   }
