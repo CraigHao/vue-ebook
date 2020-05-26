@@ -1,3 +1,5 @@
+import { getBookShelf, saveBookShelf } from './localStorage'
+
 export const flapCardList = [
   {
     r: 255,
@@ -216,5 +218,27 @@ export function computeId (list) {
       }
     }
     return book
+  })
+}
+
+export function addToShelf (book) {
+  let shelfList = getBookShelf()
+  shelfList = removeAddFromShelf(shelfList)
+  book.type = 1
+  shelfList.push(book)
+  shelfList = computeId(shelfList)
+  shelfList = appendAddToShelf(shelfList)
+  saveBookShelf(shelfList)
+}
+
+export function removeFromBookShelf (book, bookList) {
+  if (!bookList) {
+    bookList = getBookShelf()
+  }
+  return bookList.filter(item => {
+    if (item.itemList) {
+      item.itemList = removeFromBookShelf(book, item.itemList)
+    }
+    return item.fileName !== book.fileName
   })
 }
